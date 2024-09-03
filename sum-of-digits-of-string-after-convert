@@ -1,0 +1,43 @@
+class Solution {
+    public int getLucky(String s, int k) {
+        // Шаг 1: Преобразование строки s в число на основе позиции букв в алфавите
+        StringBuilder numericString = new StringBuilder();
+        for (char ch : s.toCharArray()) {
+            // Преобразовать каждый символ в соответствующее число в алфавите
+            int num = ch - 'a' + 1;
+            // Добавить число к строке numericString
+            numericString.append(num);
+        }
+
+        // Преобразовать строку numericString в целое число для дальнейшей обработки
+        int number = 0;
+        // Вычислить начальную сумму цифр из строки numericString
+        for (char digit : numericString.toString().toCharArray()) {
+            // Преобразовать символ цифры в целое число и добавить к сумме
+            number += digit - '0';
+        }
+
+        // Шаг 2: Выполнить преобразование суммы цифр k раз
+        for (int i = 1; i < k; i++) {
+            int sum = 0;
+            // Вычислить сумму цифр текущего числа
+            while (number > 0) {
+                sum += number % 10; // Добавить последнюю цифру
+                number /= 10; // Удалить последнюю цифру
+            }
+            // Обновить число новой суммой
+            number = sum;
+        }
+
+        // Вернуть результат после k преобразований
+        return number;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        // Тестовые примеры
+        System.out.println(solution.getLucky("iiii", 1)); // Ожидаемый результат: 36
+        System.out.println(solution.getLucky("leetcode", 2)); // Ожидаемый результат: 6
+        System.out.println(solution.getLucky("zbax", 2)); // Ожидаемый результат: 8
+    }
+}
